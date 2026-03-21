@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        /* Fondos */
+        --cream: #faf6f0;
+        --cream-dark: #f0e8d8;
+        --white: #fffdf9;
+
+        /* Dorados */
+        --gold-light: #e8d5a3;
+        --gold: #c9a84c;
+        --gold-dark: #9a7a2e;
+
+        /* Tinta */
+        --ink: #2c2418;
+        --ink-muted: #6b5d4a;
+        --ink-faint: #a89880;
+
+        /* Sidebar */
+        --sidebar-bg: #2c2418;
+        --sidebar-border: #3c3020;
+        --sidebar-muted: #8b7355;
+
+        /* Estados */
+        --success-bg: #eaf3de;
+        --success-text: #3b6d11;
+        --warning-bg: #faeeda;
+        --warning-text: #854f0b;
+        --danger-bg: #fcebeb;
+        --danger-text: #a32d2d;
+    }
+
+    body {
+        background-color: var(--cream);
+        color: var(--ink);
+    }
+}

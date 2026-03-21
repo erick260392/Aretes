@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 220" width="500" height="220">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8D5B0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C9A96E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9A7A4A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3A2820;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2C1810;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="220" fill="#FAF6F0" rx="4"/>
+
+  <!-- Decorative top line -->
+  <line x1="40" y1="28" x2="460" y2="28" stroke="#C9A96E" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Left earring decoration -->
+  <g transform="translate(62, 110)">
+    <!-- Earring hook -->
+    <path d="M0,-38 Q8,-38 8,-28 L8,0" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Diamond shape -->
+    <polygon points="0,-10 8,0 0,10 -8,0" fill="url(#goldGrad)" opacity="0.9"/>
+    <!-- Small circle accent -->
+    <circle cx="0" cy="20" r="4" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
+    <!-- Tiny dot -->
+    <circle cx="0" cy="32" r="2" fill="url(#goldGrad)" opacity="0.7"/>
+  </g>
+
+  <!-- Right earring decoration (mirror) -->
+  <g transform="translate(438, 110)">
+    <path d="M0,-38 Q-8,-38 -8,-28 L-8,0" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="0,-10 8,0 0,10 -8,0" fill="url(#goldGrad)" opacity="0.9"/>
+    <circle cx="0" cy="20" r="4" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
+    <circle cx="0" cy="32" r="2" fill="url(#goldGrad)" opacity="0.7"/>
+  </g>
+
+  <!-- Thin horizontal decorative lines flanking text -->
+  <line x1="88" y1="80" x2="175" y2="80" stroke="#C9A96E" stroke-width="0.6" opacity="0.6"/>
+  <line x1="325" y1="80" x2="412" y2="80" stroke="#C9A96E" stroke-width="0.6" opacity="0.6"/>
+
+  <!-- Diamond ornament left -->
+  <polygon points="182,80 187,75 192,80 187,85" fill="#C9A96E" opacity="0.7"/>
+  <!-- Diamond ornament right -->
+  <polygon points="308,80 313,75 318,80 313,85" fill="#C9A96E" opacity="0.7"/>
+
+  <!-- Small stars/sparkles -->
+  <text x="250" y="72" font-size="9" fill="#C9A96E" text-anchor="middle" opacity="0.8" font-family="Georgia, serif">✦</text>
+
+  <!-- Main brand name: ARETES -->
+  <text
+    x="250"
+    y="128"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="52"
+    font-weight="400"
+    fill="url(#darkGrad)"
+    text-anchor="middle"
+    letter-spacing="14"
+  >ARETES</text>
+
+  <!-- Decorative middle divider with diamonds -->
+  <line x1="88" y1="142" x2="218" y2="142" stroke="#C9A96E" stroke-width="0.6" opacity="0.6"/>
+  <polygon points="228,142 233,137 238,142 233,147" fill="#C9A96E" opacity="0.8"/>
+  <polygon points="244,142 249,137 254,142 249,147" fill="#C9A96E"/>
+  <polygon points="260,142 265,137 270,142 265,147" fill="#C9A96E" opacity="0.8"/>
+  <line x1="280" y1="142" x2="412" y2="142" stroke="#C9A96E" stroke-width="0.6" opacity="0.6"/>
+
+  <!-- Subtitle: Mich in italic elegant script style -->
+  <text
+    x="250"
+    y="180"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="38"
+    font-style="italic"
+    font-weight="300"
+    fill="url(#goldGrad)"
+    text-anchor="middle"
+    letter-spacing="6"
+  >Mich</text>
+
+  <!-- Tagline -->
+  <text
+    x="250"
+    y="200"
+    font-family="Arial, sans-serif"
+    font-size="7.5"
+    font-weight="300"
+    fill="#9A7A4A"
+    text-anchor="middle"
+    letter-spacing="4"
+    opacity="0.8"
+  >JOYERÍA ARTESANAL</text>
+
+  <!-- Decorative bottom line -->
+  <line x1="40" y1="212" x2="460" y2="212" stroke="#C9A96E" stroke-width="0.5" opacity="0.5"/>
+</svg>
