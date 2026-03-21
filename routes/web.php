@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\OperationsController as AdminOperationsController;
 use App\Http\Controllers\Shop\HomeController as ShopHomeController;
 use App\Http\Controllers\Shop\ProductController as ShopProductController;
 use App\Http\Controllers\Shop\CartController as ShopCartController;
@@ -32,6 +33,11 @@ Route::prefix('/admin')->group(function () {
         Route::get('/customers', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
         Route::get('/customers/create', [AdminCustomerController::class, 'create'])->name('admin.customers.create');
         Route::post('/customers', [AdminCustomerController::class, 'store'])->name('admin.customers.store');
+
+        Route::get('/inventory', [AdminOperationsController::class, 'inventory'])->name('admin.inventory.index');
+        Route::get('/payments', [AdminOperationsController::class, 'payments'])->name('admin.payments.index');
+        Route::get('/shipping', [AdminOperationsController::class, 'shipping'])->name('admin.shipping.index');
+        Route::get('/store', [AdminOperationsController::class, 'store'])->name('admin.store.index');
     });
 });
 
