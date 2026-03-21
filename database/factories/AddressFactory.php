@@ -17,13 +17,12 @@ class AddressFactory extends Factory
     {
         return [
             'user_id' => User::query()->inRandomOrder()->value('id') ?? User::factory(),
-            'street' => fake()->streetAddress(),
-            'city' => fake()->city(),
-            'state' => fake()->state(),
-            'postal_code' => fake()->postcode(),
-            'country' => fake()->randomElement(['México', 'Mexico']),
+            'street' => $this->faker->streetAddress(),
+            'city' => $this->faker->city(),
+            'state' => $this->faker->state(),
+            'postal_code' => $this->faker->postcode(),
+            'country' => $this->faker->randomElement(['México', 'Mexico']),
             'is_default' => false,
         ];
     }
 }
-

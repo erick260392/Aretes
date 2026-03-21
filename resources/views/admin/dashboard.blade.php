@@ -109,11 +109,37 @@
             </div>
 
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <form method="GET" class="xl:col-span-3 rounded-2xl bg-[color:var(--white)] border border-[color:var(--cream-dark)] p-4 grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-muted)] mb-1">{{ __('Rango') }}</label>
+                        <select name="chart_days" class="w-full rounded-xl border-[color:var(--cream-dark)] text-sm">
+                            <option value="7" @selected((int) ($chartDays ?? 7) === 7)>{{ __('Últimos 7 días') }}</option>
+                            <option value="30" @selected((int) ($chartDays ?? 7) === 30)>{{ __('Últimos 30 días') }}</option>
+                            <option value="90" @selected((int) ($chartDays ?? 7) === 90)>{{ __('Últimos 90 días') }}</option>
+                            <option value="180" @selected((int) ($chartDays ?? 7) === 180)>{{ __('Últimos 180 días') }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-[color:var(--ink-muted)] mb-1">{{ __('Estado pedido') }}</label>
+                        <select name="chart_status" class="w-full rounded-xl border-[color:var(--cream-dark)] text-sm">
+                            <option value="all" @selected(($chartStatus ?? 'all') === 'all')>{{ __('Todos') }}</option>
+                            @foreach (($availableStatuses ?? collect()) as $status)
+                                <option value="{{ $status }}" @selected(($chartStatus ?? 'all') === $status)>{{ ucfirst($status) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="md:col-span-3 flex items-end gap-2">
+                        <button class="rounded-xl bg-[color:var(--gold)] px-4 py-2 text-sm font-semibold text-[color:var(--ink)]">{{ __('Aplicar filtros') }}</button>
+                        <a href="{{ route('dashboard') }}" class="rounded-xl border border-[color:var(--cream-dark)] px-4 py-2 text-sm font-semibold">{{ __('Limpiar') }}</a>
+                        <a href="{{ route('admin.dashboard.export', request()->query()) }}" class="rounded-xl border border-[color:var(--gold-dark)] px-4 py-2 text-sm font-semibold">{{ __('Exportar Excel') }}</a>
+                    </div>
+                </form>
+
                 <div class="xl:col-span-3 grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="rounded-2xl bg-[color:var(--white)] border border-[color:var(--cream-dark)] shadow-sm p-5 lg:col-span-2">
                         <div class="flex items-center justify-between">
                             <div>
-                                <h3 class="text-base font-semibold text-[color:var(--ink)]">{{ __('Ventas últimos 7 días') }}</h3>
+                                <h3 class="text-base font-semibold text-[color:var(--ink)]">{{ __('Ventas últimos :days días', ['days' => $chartDays ?? 7]) }}</h3>
                                 <p class="mt-1 text-sm text-[color:var(--ink-muted)]">{{ __('Monto diario facturado') }}</p>
                             </div>
                         </div>
@@ -131,7 +157,7 @@
                     </div>
 
                     <div class="rounded-2xl bg-[color:var(--white)] border border-[color:var(--cream-dark)] shadow-sm p-5 lg:col-span-3">
-                        <h3 class="text-base font-semibold text-[color:var(--ink)]">{{ __('Pedidos últimos 7 días') }}</h3>
+                        <h3 class="text-base font-semibold text-[color:var(--ink)]">{{ __('Pedidos últimos :days días', ['days' => $chartDays ?? 7]) }}</h3>
                         <p class="mt-1 text-sm text-[color:var(--ink-muted)]">{{ __('Cantidad diaria de pedidos') }}</p>
                         <div class="mt-4 h-64">
                             <canvas id="ordersLast7DaysChart"></canvas>

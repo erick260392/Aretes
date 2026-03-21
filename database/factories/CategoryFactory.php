@@ -15,7 +15,15 @@ class CategoryFactory extends Factory
 
     public function definition(): array
     {
-        $name = fake()->unique()->words(fake()->numberBetween(1, 2), true);
+        $name = $this->faker->unique()->randomElement([
+            'Aretes',
+            'Collares',
+            'Pulseras',
+            'Anillos',
+            'Sets',
+            'Temporada',
+            'Edición Limitada',
+        ]);
         $slug = Str::slug($name);
 
         if ($slug === '') {
@@ -23,10 +31,13 @@ class CategoryFactory extends Factory
         }
 
         return [
-            'name' => Str::title($name),
+            'name' => $name,
             'slug' => $slug,
-            'description' => fake()->optional(0.7)->sentence(10),
+            'description' => $this->faker->randomElement([
+                'Colección seleccionada para tienda de joyería.',
+                'Productos con acabados premium para uso diario.',
+                'Línea pensada para regalo y ocasiones especiales.',
+            ]),
         ];
     }
 }
-

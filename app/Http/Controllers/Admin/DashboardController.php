@@ -9,17 +9,23 @@ use App\Models\User;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $chartDays = (int) $request->integer('chart_days', 7);
+        $chartDays = in_array($chartDays, [7, 30, 90, 180], true) ? $chartDays : 7;
+        $chartStatus = trim((string) $request->string('chart_status', 'all'));
+
         $now = now();
         $today = Carbon::today();
         $monthStart = $now->copy()->startOfMonth();
         $monthEnd = $now->copy()->endOfMonth();
-        $sevenDaysAgo = $now->copy()->subDays(6)->startOfDay();
+        $chartStart = $now->copy()->subDays($chartDays - 1)->startOfDay();
 
         $pendingOrdersCount = Order::where('status', 'pending')->count();
         $ordersTodayCount = Order::whereDate('created_at', $today)->count();
@@ -42,15 +48,21 @@ class DashboardController extends Controller
             ->take(6)
             ->get();
 
-        $ordersByDate = Order::query()
+        $ordersByDateQuery = Order::query()
             ->selectRaw('DATE(created_at) as order_date, COUNT(*) as orders_count, SUM(total) as revenue_total')
-            ->where('created_at', '>=', $sevenDaysAgo)
+            ->where('created_at', '>=', $chartStart);
+
+        if ($chartStatus !== 'all' && $chartStatus !== '') {
+            $ordersByDateQuery->where('status', $chartStatus);
+        }
+
+        $ordersByDate = $ordersByDateQuery
             ->groupBy('order_date')
             ->orderBy('order_date')
             ->get()
             ->keyBy('order_date');
 
-        $chartLabels = collect(range(6, 0))
+        $chartLabels = collect(range($chartDays - 1, 0))
             ->map(fn (int $days) => $now->copy()->subDays($days))
             ->values();
 
@@ -76,6 +88,7 @@ class DashboardController extends Controller
 
         $ordersByStatus = Order::query()
             ->selectRaw('status, COUNT(*) as total')
+            ->where('created_at', '>=', $chartStart)
             ->groupBy('status')
             ->orderByDesc('total')
             ->get();
@@ -102,6 +115,43 @@ class DashboardController extends Controller
             'revenueChartData' => $revenueChartData,
             'statusChartLabels' => $statusChartLabels,
             'statusChartData' => $statusChartData,
+            'chartDays' => $chartDays,
+            'chartStatus' => $chartStatus,
+            'availableStatuses' => Order::query()->select('status')->distinct()->pluck('status'),
+        ]);
+    }
+
+    public function export(Request $request): StreamedResponse
+    {
+        $chartDays = (int) $request->integer('chart_days', 7);
+        $chartDays = in_array($chartDays, [7, 30, 90, 180], true) ? $chartDays : 7;
+        $chartStatus = trim((string) $request->string('chart_status', 'all'));
+        $now = now();
+        $chartStart = $now->copy()->subDays($chartDays - 1)->startOfDay();
+
+        $ordersQuery = Order::query()->where('created_at', '>=', $chartStart);
+        if ($chartStatus !== 'all' && $chartStatus !== '') {
+            $ordersQuery->where('status', $chartStatus);
+        }
+
+        return response()->streamDownload(function () use ($ordersQuery): void {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['Pedido', 'Estado', 'Total', 'Fecha']);
+
+            $ordersQuery->orderByDesc('id')->chunk(1000, function ($orders) use ($handle): void {
+                foreach ($orders as $order) {
+                    fputcsv($handle, [
+                        $order->id,
+                        $order->status,
+                        number_format((float) $order->total, 2, '.', ''),
+                        $order->created_at?->format('Y-m-d H:i:s'),
+                    ]);
+                }
+            });
+
+            fclose($handle);
+        }, 'reporte_dashboard.csv', [
+            'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
     }
 }

@@ -7,15 +7,29 @@ use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     public function index(Request $request): View
     {
-        $categories = Category::query()
+        $query = Category::query();
+
+        if ($search = trim((string) $request->string('q'))) {
+            $query->where(function ($builder) use ($search) {
+                $builder
+                    ->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('id', 'like', "%{$search}%");
+            });
+        }
+
+        $categories = $query
             ->latest()
-            ->paginate(15);
+            ->paginate(50)
+            ->withQueryString();
 
         return view('admin.categories.index', [
             'categories' => $categories,
@@ -52,5 +66,41 @@ class CategoryController extends Controller
         return redirect()
             ->route('admin.categories.index')
             ->with('status', __('Categoría creada correctamente.'));
+    }
+
+    public function export(Request $request): StreamedResponse
+    {
+        $query = Category::query();
+
+        if ($search = trim((string) $request->string('q'))) {
+            $query->where(function ($builder) use ($search) {
+                $builder
+                    ->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('id', 'like', "%{$search}%");
+            });
+        }
+
+        return response()->streamDownload(function () use ($query): void {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['ID', 'Categoria', 'Slug', 'Descripcion', 'Creada']);
+
+            $query->orderByDesc('id')->chunk(1000, function ($categories) use ($handle): void {
+                foreach ($categories as $category) {
+                    fputcsv($handle, [
+                        $category->id,
+                        $category->name,
+                        $category->slug,
+                        $category->description,
+                        $category->created_at?->format('Y-m-d H:i:s'),
+                    ]);
+                }
+            });
+
+            fclose($handle);
+        }, 'reporte_categorias.csv', [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
     }
 }
