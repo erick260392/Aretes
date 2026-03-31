@@ -5,7 +5,7 @@
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
+        <form method="POST" action="{{ route('register') }}" class="flex flex-col gap-6">
             @csrf
             <!-- Name -->
             <flux:input
@@ -29,6 +29,17 @@
                 autocomplete="email"
                 placeholder="email@example.com"
             />
+
+            <div class="space-y-2">
+                <label for="role" class="text-sm font-medium text-zinc-700">{{ __('Role') }}</label>
+                <select id="role" name="role" class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-200">
+                    <option value="customer" {{ old('role', 'customer') == 'customer' ? 'selected' : '' }}>Customer</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+                @error('role')
+                    <p class="text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
             <!-- Password -->
             <flux:input

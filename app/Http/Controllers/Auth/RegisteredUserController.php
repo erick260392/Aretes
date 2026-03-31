@@ -47,10 +47,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        if ($user->isAdmin()) {
-            return redirect()->intended('/admin/dashboard');
-        }
-
-        return redirect()->intended(route('profile.edit', absolute: false));
+        return redirect()->intended('/shop');
     }
 }
