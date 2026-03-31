@@ -22,7 +22,7 @@ class CheckoutController extends Controller
         abort_if(!$user, 401);
 
         $cart = Cart::firstOrCreate(['user_id' => $user->id]);
-        $items = $cart->items()->with('product')->get();
+        $items = $cart->items()->with(['product.category', 'product.images' => fn ($query) => $query->orderByDesc('is_main')->orderBy('order')])->get();
 
         $subtotal = $items->sum(fn (CartItem $item) => (float) $item->product->price * (int) $item->quantity);
 
@@ -112,7 +112,7 @@ class CheckoutController extends Controller
         abort_if(!$user, 401);
         abort_unless($order->user_id === $user->id || $user->isAdmin(), 403);
 
-        $order->load(['items.product', 'address', 'payment']);
+        $order->load(['items.product.category', 'items.product.images' => fn ($query) => $query->orderByDesc('is_main')->orderBy('order'), 'address', 'payment']);
 
         return view('shop.order-success', [
             'order' => $order,

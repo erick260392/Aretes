@@ -16,7 +16,7 @@ class CartController extends Controller
     public function index(Request $request): View
     {
         $cart = $this->cartFor($request);
-        $items = $cart->items()->with('product')->get();
+        $items = $cart->items()->with(['product.category', 'product.images' => fn ($query) => $query->orderByDesc('is_main')->orderBy('order')])->get();
 
         $subtotal = $items->sum(fn (CartItem $item) => (float) $item->product->price * (int) $item->quantity);
 

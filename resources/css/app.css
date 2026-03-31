@@ -8,6 +8,8 @@
         --cream: #faf6f0;
         --cream-dark: #f0e8d8;
         --white: #fffdf9;
+        --rose: #d4a5a0;
+        --espresso: #2c1810;
 
         /* Dorados */
         --gold-light: #e8d5a3;
@@ -35,6 +37,233 @@
 
     body {
         background-color: var(--cream);
+        background-image:
+            radial-gradient(circle at top left, rgba(232, 213, 163, 0.26), transparent 30%),
+            radial-gradient(circle at top right, rgba(212, 165, 160, 0.18), transparent 22%);
         color: var(--ink);
+        font-family: "Jost", sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    .font-editorial {
+        font-family: "Cormorant Garamond", serif;
+    }
+}
+
+@layer components {
+    .shop-page-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.8rem, 4vw, 4.5rem);
+        line-height: 0.96;
+        font-weight: 300;
+        color: var(--espresso);
+    }
+
+    .shop-section-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.1rem, 3vw, 3.5rem);
+        line-height: 0.98;
+        font-weight: 300;
+        color: var(--espresso);
+    }
+
+    .shop-kicker {
+        font-size: 0.68rem;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 500;
+    }
+
+    .shop-copy {
+        color: var(--ink-muted);
+        line-height: 1.9;
+        font-size: 0.95rem;
+    }
+
+    .shop-panel {
+        border: 1px solid rgba(201, 168, 76, 0.14);
+        background: rgba(255, 253, 249, 0.86);
+        box-shadow: 0 24px 60px rgba(44, 24, 16, 0.07);
+        backdrop-filter: blur(14px);
+    }
+
+    .shop-panel-dark {
+        border: 1px solid rgba(232, 213, 163, 0.08);
+        background: linear-gradient(145deg, rgba(44, 24, 16, 0.98), rgba(74, 44, 26, 0.98));
+        box-shadow: 0 28px 70px rgba(44, 24, 16, 0.2);
+    }
+
+    .shop-input {
+        border: 1px solid rgba(201, 168, 76, 0.16);
+        background: rgba(255, 253, 249, 0.92);
+        color: var(--ink);
+        border-radius: 9999px;
+        padding: 0.95rem 1.2rem;
+        font-size: 0.92rem;
+        width: 100%;
+        outline: none;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background-color 0.2s ease;
+    }
+
+    .shop-input:focus {
+        border-color: rgba(201, 168, 76, 0.65);
+        box-shadow: 0 0 0 5px rgba(201, 168, 76, 0.12);
+        background: #fff;
+    }
+
+    .shop-choice {
+        border: 1px solid rgba(201, 168, 76, 0.14);
+        background: rgba(255, 253, 249, 0.88);
+        border-radius: 1.25rem;
+        padding: 1rem 1.1rem;
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        transition:
+            border-color 0.2s ease,
+            transform 0.2s ease,
+            background-color 0.2s ease;
+    }
+
+    .shop-choice:hover {
+        border-color: rgba(201, 168, 76, 0.34);
+        background: #fff;
+        transform: translateY(-1px);
+    }
+
+    .shop-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        border: 1px solid var(--espresso);
+        background: var(--espresso);
+        color: var(--cream);
+        padding: 0.95rem 1.6rem;
+        font-size: 0.68rem;
+        font-weight: 500;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .shop-btn-primary:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--espresso);
+        transform: translateY(-1px);
+    }
+
+    .shop-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        border: 1px solid rgba(201, 168, 76, 0.18);
+        background: rgba(255, 253, 249, 0.92);
+        color: var(--espresso);
+        padding: 0.95rem 1.4rem;
+        font-size: 0.68rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        transition:
+            border-color 0.2s ease,
+            background-color 0.2s ease,
+            transform 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .shop-btn-secondary:hover {
+        border-color: rgba(201, 168, 76, 0.45);
+        background: #fff;
+        color: var(--gold-dark);
+        transform: translateY(-1px);
+    }
+
+    .shop-card-product {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(201, 168, 76, 0.12);
+        border-radius: 2rem;
+        box-shadow: 0 22px 58px rgba(44, 24, 16, 0.07);
+        overflow: hidden;
+    }
+
+    .shop-card-media {
+        position: relative;
+        overflow: hidden;
+        min-height: 26rem;
+    }
+
+    .shop-sheen {
+        background:
+            radial-gradient(circle at top left, rgba(232, 213, 176, 0.9), transparent 38%),
+            radial-gradient(circle at bottom right, rgba(212, 165, 160, 0.28), transparent 32%),
+            linear-gradient(135deg, rgba(255, 253, 249, 0.95), rgba(250, 246, 240, 0.92));
+    }
+
+    .shop-product-glow {
+        background:
+            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.75), transparent 30%),
+            linear-gradient(135deg, rgba(250, 246, 240, 0.9), rgba(232, 213, 176, 0.85));
+    }
+
+    .shop-category-glow {
+        background:
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 25%),
+            linear-gradient(135deg, rgba(232, 213, 176, 0.96), rgba(212, 165, 160, 0.88));
+    }
+
+    .shop-marquee-track {
+        animation: shop-marquee 18s linear infinite;
+    }
+
+    .shop-float {
+        animation: shop-float 3.5s ease-in-out infinite;
+    }
+
+    .shop-spin-soft {
+        animation: shop-spin-soft 10s linear infinite;
+    }
+}
+
+@keyframes shop-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes shop-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes shop-spin-soft {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
